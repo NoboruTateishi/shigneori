@@ -1,0 +1,104 @@
+
+{% schema %}
+{
+"name": "Slideshow",
+"settings": [
+    {
+    "type": "image_picker",
+    "id": "image_1",
+    "label": "Image 1"
+    },
+    {
+    "type": "image_picker",
+    "id": "image_2",
+    "label": "Image 2" 
+    },
+    {
+    "type": "image_picker",
+    "id": "image_3",
+    "label": "Image 3"
+    }
+],
+"presets": [
+    {
+    "name": "Slideshow" 
+    }
+]
+}
+{% endschema %}
+
+<div class="slideshow">
+  {% for image in section.settings.slides %}
+    <div class="slideshow-slide">
+      <img src="{{ image }}" alt="Slide">
+    </div>
+  {% endfor %}
+</div>
+
+
+<script>
+// script.js
+
+const slideshow = document.querySelector('.slideshow');
+let currentIndex = 0;
+const slides = document.querySelectorAll('.slideshow-slide');
+
+function showSlide(index) {
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${100 * (i - index)}%)`;
+  });
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+}
+
+function prevSlide() {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  showSlide(currentIndex);
+}
+
+// スライドの自動再生を開始する場合は以下のコメントを解除
+// setInterval(nextSlide, 5000); // 5秒ごとに次のスライドへ
+
+// 前のスライドへ移動するボタンのクリックイベント
+document.querySelector('.prev-button').addEventListener('click', prevSlide);
+
+// 次のスライドへ移動するボタンのクリックイベント
+document.querySelector('.next-button').addEventListener('click', nextSlide);
+
+</script>
+
+<style>
+/* スライドショーのCSS */ 
+/* styles.css */
+
+.slideshow {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slideshow-slide {
+  width: 100%;
+  height: 100vh; /* スライドの高さを画面の高さに合わせる場合 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slideshow-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+/* BEMクラスの例 */
+.slideshow__slide {
+  /* スライドのスタイリング */
+}
+
+/* 他の必要なスタイルを追加できます */
+
+</style>
